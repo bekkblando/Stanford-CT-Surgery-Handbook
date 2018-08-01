@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, WebView, Button, Image, Text} from 'react-native';
+import { StyleSheet, View, ScrollView, WebView, Button, Image, Text, TextInput} from 'react-native';
 import * as firebase from "firebase";
 import HtmlParser from 'react-native-htmlparser';
 import Section from "./Section";
@@ -26,10 +26,14 @@ export default class App extends React.Component {
         this.state = {
             location: "home",
             table_of_contents: {},
-            link: ''
+            link: '',
+            search: '',
+            navigation: []
         };
 
+        this.searchSections = [];
         this.viewContent = this.viewContent.bind(this);
+        this.listenForItems(this.itemsRef);
     }
 
     listenForItems(itemsRef) {
@@ -39,23 +43,34 @@ export default class App extends React.Component {
             this.setState({
                 "table_of_contents": navList
             });
+            this.setState({navigation: this.makeNav(this.state.table_of_contents, 0, '0/Manual/', '')});
         });
-    }
-
-    componentWillMount() {
-        this.listenForItems(this.itemsRef);
     }
 
     viewContent(link){
       this.setState({location: 'content', link: link})
     }
 
-    makeNav(ob, count, link) {
+    searchTerm(sectionName, searchTerm){
+      // Check if it's matching or is a sub string or vice versa
+      return sectionName.toLowerCase().includes(searchTerm.toLowerCase())
+    }
+
+    search(){
+
+    }
+
+    makeNav(ob, count, link, searchTerm = '') {
         let components = []
         Object.keys(ob).map((key) => {
             if (key != "content") {
-                let component = <Section style = {{ marginBottom: 20 }} key={ key } name={ key }>{ this.makeNav(ob[key], count + 1, link + "/" + key) }</Section>
-                components.push(component)
+                let component = <Section style = {{ marginBottom: 20 }} key={ key } name={ key }>{ this.makeNav(ob[key], count + 1, link + "/" + key, searchTerm) }</Section>
+                console.log(this.state.search)
+                if(!searchTerm){
+                  components.push(component);
+                }else if(this.searchTerm(key, searchTerm)){
+                  this.searchSections.push(component);
+                }
             }else{
               // Content
               components.push(<Button color = '#8c1515' onPress={() => this.viewContent(link)} key = { count } title = "View Content"/>)
@@ -71,9 +86,23 @@ export default class App extends React.Component {
     					<View contentContainerStyle={ styles.contentContainer }>
                 <View style = { styles.imageHolder }>
                   <Image style = { styles.image } source={require('./stanford_medicine_logo.png')} />
+                  <TextInput
+                    style = { styles.search }
+                    editable = {true}
+                    placeholder = "Search"
+                    underlineColorAndroid = 'white'
+                    onChangeText = { (text) => {
+                      if(text){
+                        this.searchSections = [];
+                        this.makeNav(this.state.table_of_contents, 0, '0/Manual/', text)
+                        this.setState({navigation: this.searchSections});
+                      }else{
+                        this.setState({navigation: this.makeNav(this.state.table_of_contents, 0, '0/Manual/', '')});
+                      }
+                    } } />
                 </View>
                 <ScrollView>
-                  { this.makeNav(this.state.table_of_contents, 0, '0/Manual/') }
+                  { this.state.navigation }
                 </ScrollView>
     					</View>
     				)
@@ -109,22 +138,32 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   contentContainer: {
       position: 'absolute',
-      backgroundColor: '#dad7cb',
-      marginBottom: '10%',
+      backgroundColor: '#8c1515',
+      marginBottom: '20%',
       width: '100%',
       height: '100%',
     },
     imageHolder: {
       height: 100,
       padding: '10%',
+      paddingTop: '20%',
+      paddingBottom: '30%',
+      marginBottom: '5%',
       backgroundColor: "#4d4f53",
       justifyContent: 'center',
       alignItems: 'center',
+      width: '100%',
     },
     image: {
       width: '70%',
       height: 100,
       resizeMode: 'contain',
+    },
+    search: {
+      backgroundColor: 'white',
+      width: '70%',
+      height: 30,
+      color: 'black'
     }
   });
 
