@@ -21,14 +21,19 @@ export default class App extends React.Component {
 
     constructor() {
         super();
+        console.disableYellowBox = true;
         let rootRef = firebase.database().ref();
         this.itemsRef = rootRef;
         this.state = {
-            location: "home",
+            location: "login",
             table_of_contents: {},
             link: '',
             search: '',
-            navigation: []
+            navigation: [],
+            email: '',
+            password: '',
+            user: '',
+            errorMessage: ''
         };
 
         this.searchSections = [];
@@ -79,8 +84,42 @@ export default class App extends React.Component {
         return(components)
     }
 
+    login(){
+      firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password.trim()).then((results) => {
+        console.log(results)
+        this.setState({location: 'home', email: '', password: '', user: results})
+      }).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        this.setState({errorMessage: errorMessage})
+        });
+    }
+
     render() {
         switch(this.state.location) {
+          case "login":
+            return(
+              <View style={ styles.loginContainer }>
+                <Text> { this.state.errorMessage } </Text>
+                <Button title="Login" onPress={this.login.bind(this)}/>
+                  <TextInput
+                    style={ styles.email }
+                    editable = {true}
+                    placeholder = "User Name"
+                    underlineColorAndroid = 'white'
+                    onChangeText = { (text) => this.setState({email: text}) }
+                  />
+                  <TextInput
+                    secureTextEntry={true}
+                    style={ styles.password }
+                    editable = {true}
+                    placeholder = "Password"
+                    underlineColorAndroid = 'white'
+                    onChangeText = { (text) => this.setState({password: text}) }
+                  />
+              </View>
+            )
+            break;
     			case "home":
     				return(
     					<View contentContainerStyle={ styles.contentContainer }>
@@ -138,11 +177,18 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   contentContainer: {
       position: 'absolute',
-      backgroundColor: '#8c1515',
       marginBottom: '20%',
       width: '100%',
       height: '100%',
     },
+    loginContainer: {
+        position: 'absolute',
+        backgroundColor: '#8c1515',
+        marginBottom: '20%',
+        padding: '10%',
+        width: '100%',
+        height: '100%',
+      },
     imageHolder: {
       height: 100,
       padding: '10%',
@@ -162,6 +208,18 @@ const styles = StyleSheet.create({
     search: {
       backgroundColor: 'white',
       width: '70%',
+      height: 30,
+      color: 'black'
+    },
+    userName: {
+      backgroundColor: 'white',
+      width: '100%',
+      height: 30,
+      color: 'black'
+    },
+    password: {
+      backgroundColor: 'white',
+      width: '100%',
       height: 30,
       color: 'black'
     }
