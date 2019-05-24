@@ -5,17 +5,17 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
     "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
     "@fortawesome/react-fontawesome": "0.1.0-11",
-    "expo": "^23.0.6",
+    "expo": "^23.1.1",
     "filereader": "latest",
-    "firebase": "^3.1.0",
+    "firebase": "^3.9.0",
     "i": "^0.3.6",
     "native-css": "latest",
     "npm": "^6.2.0",
-    "react": "16.0.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-23.0.0.tar.gz",
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
     "react-native-css": "^2.1.2",
     "react-native-htmlparser": "^1.0.5",
-    "tcomb-form-native": "^0.6.11",
-    "react-native-pdf-view": "latest"
+    "react-native-pdf-view": "latest",
+    "tcomb-form-native": "^0.6.20"
   }
 }

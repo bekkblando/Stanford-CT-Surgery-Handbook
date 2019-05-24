@@ -6,12 +6,13 @@ import Section from "./Section";
 
 // Initialize Firebase
 const config = {
-    apiKey: "AIzaSyCVj9ZWunoXIGOT08Qw8XF9qiS_TTnsP8A",
-    authDomain: "stanford-heart-surgery.firebaseapp.com",
-    databaseURL: "https://stanford-heart-surgery.firebaseio.com",
-    projectId: "stanford-heart-surgery",
-    storageBucket: "stanford-heart-surgery.appspot.com",
-    messagingSenderId: "856277829656"
+  apiKey: "AIzaSyDO4gQiWkeNAxllb-nXWDr74vemGMRQBbw",
+  authDomain: "georgetown-memorial.firebaseapp.com",
+  databaseURL: "https://georgetown-memorial.firebaseio.com",
+  projectId: "georgetown-memorial",
+  storageBucket: "georgetown-memorial.appspot.com",
+  messagingSenderId: "633749216180",
+  appId: "1:633749216180:web:e1f318a5a37df142"
 };
 firebase.initializeApp(config);
 
@@ -88,7 +89,7 @@ export default class App extends React.Component {
       firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password.trim()).then((results) => {
         console.log(results)
         this.setState({location: 'home', email: '', password: '', user: results})
-      }).catch(function(error) {
+      }).catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         this.setState({errorMessage: errorMessage})
