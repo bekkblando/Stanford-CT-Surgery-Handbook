@@ -44,6 +44,7 @@ export default class App extends React.Component {
 
     listenForItems(itemsRef) {
         itemsRef.once("value").then((snap) => {
+            console.log("This is the snap: ", snap);
             let navList = snap.val()[0]["Manual"]
 
             this.setState({
@@ -125,7 +126,7 @@ export default class App extends React.Component {
     				return(
     					<View contentContainerStyle={ styles.contentContainer }>
                 <View style = { styles.imageHolder }>
-                  <Image style = { styles.image } source={require('./stanford_medicine_logo.png')} />
+                  <Image style = { styles.image } source={require('./george_town.png')} />
                   <TextInput
                     style = { styles.search }
                     editable = {true}
@@ -152,7 +153,7 @@ export default class App extends React.Component {
             return(
               <View style = { webViewStyles.container } >
                 <View style = { styles.imageHolder }>
-                  <Image style = { styles.image } source={require('./stanford_medicine_logo.png')} />
+                  <Image style = { styles.image } source={require('./george_town.png')} />
                 </View>
                 <Button color = '#8c1515' onPress = {() => this.setState({location: 'home'})} title = {"Back"}/>
                 <WebView
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     },
     loginContainer: {
         position: 'absolute',
-        backgroundColor: '#8c1515',
+        backgroundColor: '#0069BA',
         marginBottom: '20%',
         padding: '10%',
         width: '100%',
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
       paddingTop: '20%',
       paddingBottom: '30%',
       marginBottom: '5%',
-      backgroundColor: "#4d4f53",
+      backgroundColor: "#0069BA",
       justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
