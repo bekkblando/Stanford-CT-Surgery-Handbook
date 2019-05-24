@@ -148,7 +148,7 @@ export default class App extends React.Component {
     				)
             break;
           case "content":
-            console.log("http://d2vd81lu361af4.cloudfront.net/viewContent?" + this.state.link)
+            console.log("http://d27dkc7f7abooa.cloudfront.net/viewContent?" + this.state.link)
             return(
               <View style = { webViewStyles.container } >
                 <View style = { styles.imageHolder }>
@@ -165,7 +165,7 @@ export default class App extends React.Component {
                   renderError={() => <Text> A Loading error has occured</Text>}
                   scrollEnabled
                   scalesPageToFit
-                  source={{uri: "http://d2vd81lu361af4.cloudfront.net/viewContent?" + this.state.link}}
+                  source={{uri: "http://d27dkc7f7abooa.cloudfront.net/viewContent?" + this.state.link}}
                 />
               </View>
             )
