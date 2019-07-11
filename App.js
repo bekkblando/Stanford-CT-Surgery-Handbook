@@ -148,9 +148,6 @@ export default class App extends React.Component {
           case "content":
             return(
               <View style = { webViewStyles.container } >
-                <View style = { styles.imageHolder }>
-                  <Image style = { styles.image } source={require('./george_town.png')} />
-                </View>
                 <Button color = '#8c1515' onPress = {() => { this.setState({navigation: this.makeNav(this.state.table_of_contents, 0, '0/Manual/', '')}); this.setState({location: 'home'} )}} title = {"Back"}/>
                 <WebView
                   style = {{
