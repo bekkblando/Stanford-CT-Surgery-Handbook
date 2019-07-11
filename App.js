@@ -44,7 +44,6 @@ export default class App extends React.Component {
 
     listenForItems(itemsRef) {
         itemsRef.once("value").then((snap) => {
-            console.log("This is the snap: ", snap);
             let navList = snap.val()[0]["Manual"]
 
             this.setState({
@@ -72,7 +71,6 @@ export default class App extends React.Component {
         Object.keys(ob).map((key) => {
             if (key != "content") {
                 let component = <Section style = {{ marginBottom: 20 }} key={ key } name={ key }>{ this.makeNav(ob[key], count + 1, link + "/" + key, searchTerm) }</Section>
-                console.log(this.state.search)
                 if(!searchTerm){
                   components.push(component);
                 }else if(this.searchTerm(key, searchTerm)){
@@ -88,7 +86,6 @@ export default class App extends React.Component {
 
     login(){
       firebase.auth().signInWithEmailAndPassword(this.state.email.trim(), this.state.password.trim()).then((results) => {
-        console.log(results)
         this.setState({location: 'home', email: '', password: '', user: results})
       }).catch((error) => {
         var errorCode = error.code;
@@ -149,13 +146,12 @@ export default class App extends React.Component {
     				)
             break;
           case "content":
-            console.log("http://d27dkc7f7abooa.cloudfront.net/viewContent?" + this.state.link)
             return(
               <View style = { webViewStyles.container } >
                 <View style = { styles.imageHolder }>
                   <Image style = { styles.image } source={require('./george_town.png')} />
                 </View>
-                <Button color = '#8c1515' onPress = {() => this.setState({location: 'home'})} title = {"Back"}/>
+                <Button color = '#8c1515' onPress = {() => { this.setState({navigation: this.makeNav(this.state.table_of_contents, 0, '0/Manual/', '')}); this.setState({location: 'home'} )}} title = {"Back"}/>
                 <WebView
                   style = {{
                     width: '100%',
