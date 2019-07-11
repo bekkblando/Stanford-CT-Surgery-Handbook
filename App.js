@@ -122,6 +122,7 @@ export default class App extends React.Component {
     			case "home":
     				return(
     					<View contentContainerStyle={ styles.contentContainer }>
+              <ScrollView>
                 <View style = { styles.imageHolder }>
                   <Image style = { styles.image } source={require('./george_town.png')} />
                   <TextInput
@@ -139,7 +140,6 @@ export default class App extends React.Component {
                       }
                     } } />
                 </View>
-                <ScrollView>
                   { this.state.navigation }
                 </ScrollView>
     					</View>
